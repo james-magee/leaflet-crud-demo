@@ -1,0 +1,18 @@
+.maparea {
+    position: absolute;
+    width: 870px;
+    height: 0px;
+    min-height: 0px;
+    transition: min-height 0.15s ease-in-out;
+    margin-left: -176px;
+}
+
+.maparea.open {
+    height: 200px;
+    min-height: 200px;
+}
+
+#map {
+    width: 870px;
+    height: 200px;
+}

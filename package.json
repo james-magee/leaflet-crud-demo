@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "esbuild": "^0.27.2",
+    "typescript": "^5.9.3"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "node build.js && node scripts/build-manifest.mjs && node scripts/copy-css.mjs "
+  },
+  "dependencies": {
+    "@types/leaflet": "^1.9.21",
+    "leaflet": "^1.9.4"
+  }
+}
