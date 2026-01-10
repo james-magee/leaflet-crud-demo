@@ -8,6 +8,7 @@ toggled by pressing `.` From there, you can:
 3. change the first side length by using keys `1` (increase) and `2` (decrease); change second side length by using keys `3` (increase), `4` (decrease).
 4. rotate clockwise (about the center) using ArrowRight and counterclockwise using ArrowLeft
 5. translate using `wasd`
+6. press `P` (uppercase) to print out the corner coordinates of the rectangles in the console (they will be printed in the same)
 
 # Setting it up
 1. clone the repo into demo/: `git clone https://github.com/james-magee/leaflet-crud-demo.git demo/`
