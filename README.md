@@ -18,9 +18,9 @@ toggled by pressing `.` From there, you can:
 5. Go to one of UBC Intramural's Leagues game schedules:
 
 (currently supported):
-https://recreation.ubc.ca/intramurals/leagues/point-grey-cup-football/term-1-standings/
-https://recreation.ubc.ca/intramurals/leagues/dodgeball/term-1-standings/
-https://recreation.ubc.ca/intramurals/leagues/cross-volleyball/term-1-standings/
+- https://recreation.ubc.ca/intramurals/leagues/point-grey-cup-football/term-1-standings/
+- https://recreation.ubc.ca/intramurals/leagues/dodgeball/term-1-standings/
+- https://recreation.ubc.ca/intramurals/leagues/cross-volleyball/term-1-standings/
 
 6. Click on the location to see the leaflet map drop down. (Click on the location to toggle it).
 7. Press `.` to enter edit mode (create new rectangles and transform them.)
