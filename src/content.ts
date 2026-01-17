@@ -228,92 +228,108 @@ class LocationViewer {
 
     // Translation command -- WASD
     // (W-up, A-left, S-down, D-right)
-    document.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (this.mode === "view") return;
-      let north, east;
-      if (!"wasd".includes(e.key)) return;
-      if (this.focusedFigureIndex === null) return;
-      const oldPoints = (
-        this.figures[
-          this.focusedFigureIndex
-        ]!.polygon.getLatLngs()[0] as L.LatLng[]
-      ).map((o) => ({ lat: o.lat, lng: o.lng }));
-      if (e.key === "w") {
-        north = 1;
-        east = 0;
-      } else if (e.key === "a") {
-        north = 0;
-        east = -1;
-      } else if (e.key === "s") {
-        north = -1;
-        east = 0;
-      } else {
-        north = 0;
-        east = 1;
-      }
-      this.updateFigure(this.focusedFigureIndex, {
-        newPoints: translatePolygon(oldPoints, north, east),
-      });
-    });
+    document.addEventListener(
+      "keydown",
+      (e: KeyboardEvent) => {
+        if (this.mode === "view") return;
+        let north, east;
+        if (!"wasd".includes(e.key)) return;
+        if (this.focusedFigureIndex === null) return;
+        const oldPoints = (
+          this.figures[
+            this.focusedFigureIndex
+          ]!.polygon.getLatLngs()[0] as L.LatLng[]
+        ).map((o) => ({ lat: o.lat, lng: o.lng }));
+        if (e.key === "w") {
+          north = 1;
+          east = 0;
+        } else if (e.key === "a") {
+          north = 0;
+          east = -1;
+        } else if (e.key === "s") {
+          north = -1;
+          east = 0;
+        } else {
+          north = 0;
+          east = 1;
+        }
+        this.updateFigure(this.focusedFigureIndex, {
+          newPoints: translatePolygon(oldPoints, north, east),
+        });
+      },
+      { capture: true },
+    );
 
     // Scaling command
     // 1-increase length of first side, 2-increase length of second side
     // 3-decreaes                       4-decrease
-    document.addEventListener("keydown", (e) => {
-      if (this.mode === "view") return;
-      if (this.focusedFigureIndex === null) return;
-      if (!"1234".includes(e.key)) return;
-      const points = (
-        this.figures[
-          this.focusedFigureIndex
-        ]!.polygon.getLatLngs()[0] as L.LatLng[]
-      ).map((o) => ({ lat: o.lat, lng: o.lng }));
-      let scaleA, scaleB;
-      if (e.key === "1") {
-        scaleA = 1;
-        scaleB = 0;
-      } else if (e.key === "2") {
-        scaleA = -1;
-        scaleB = 0;
-      } else if (e.key === "3") {
-        scaleA = 0;
-        scaleB = 1;
-      } else {
-        scaleA = 0;
-        scaleB = -1;
-      }
-      this.updateFigure(this.focusedFigureIndex, {
-        newPoints: growRectangle(points, scaleA, scaleB),
-      });
-    });
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (this.mode === "view") return;
+        if (this.focusedFigureIndex === null) return;
+        if (!"1234".includes(e.key)) return;
+        const points = (
+          this.figures[
+            this.focusedFigureIndex
+          ]!.polygon.getLatLngs()[0] as L.LatLng[]
+        ).map((o) => ({ lat: o.lat, lng: o.lng }));
+        let scaleA, scaleB;
+        if (e.key === "1") {
+          scaleA = 1;
+          scaleB = 0;
+        } else if (e.key === "2") {
+          scaleA = -1;
+          scaleB = 0;
+        } else if (e.key === "3") {
+          scaleA = 0;
+          scaleB = 1;
+        } else {
+          scaleA = 0;
+          scaleB = -1;
+        }
+        this.updateFigure(this.focusedFigureIndex, {
+          newPoints: growRectangle(points, scaleA, scaleB),
+        });
+      },
+      { capture: true },
+    );
 
     // Removal command
     // "D" (uppercase)
-    document.addEventListener("keydown", (e) => {
-      if (this.mode === "view") return;
-      if (this.focusedFigureIndex === null) return;
-      if (e.key !== "D") return;
-      const figure = this.figures[this.focusedFigureIndex!]!;
-      this.figures = this.figures.filter(
-        (fig) => fig.fillColor !== figure.fillColor,
-      );
-      figure.polygon.remove();
-      this.focusedFigureIndex = null;
-    });
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (this.mode === "view") return;
+        if (this.focusedFigureIndex === null) return;
+        if (e.key !== "D") return;
+        const figure = this.figures[this.focusedFigureIndex!]!;
+        this.figures = this.figures.filter(
+          (fig) => fig.fillColor !== figure.fillColor,
+        );
+        figure.polygon.remove();
+        this.focusedFigureIndex = null;
+      },
+      { capture: true },
+    );
 
     // toggle view and draw mode
     // "."
-    document.addEventListener("keydown", (e) => {
-      if (e.key === ".") this.mode = this.mode === "view" ? "draw" : "view";
-      if (this.mode === "draw") return;
-      if (this.focusedFigureIndex === null) return;
-      this.updateFigure(this.focusedFigureIndex!, {
-        newOptions: {
-          color: this.figures[this.focusedFigureIndex!]!.fillColor,
-        },
-      });
-      this.focusedFigureIndex = null;
-    });
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === ".") this.mode = this.mode === "view" ? "draw" : "view";
+        if (this.mode === "draw") return;
+        if (this.focusedFigureIndex === null) return;
+        this.updateFigure(this.focusedFigureIndex!, {
+          newOptions: {
+            color: this.figures[this.focusedFigureIndex!]!.fillColor,
+          },
+        });
+        this.focusedFigureIndex = null;
+      },
+      { capture: true },
+    );
 
     LocationViewer.currentViewer = this;
   }
