@@ -16,3 +16,12 @@
     width: 870px;
     height: 200px;
 }
+
+.map-mode-indicator {
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    pointer-events: none; /* optional */
+}
