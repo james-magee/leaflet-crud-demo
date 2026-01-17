@@ -82,9 +82,9 @@ class LocationViewer {
   }
 
   addRect(rect: Rect): MapRect {
-    if (!this.leaflet) throw Error("leaflet uninitialized");
+    if (!this.leaflet) throw new Error("leaflet uninitialized");
     if (this.mapRects.some((f) => f.rect.color === rect.color))
-      throw Error(`color ${rect.color} already in use.`);
+      throw new Error(`color ${rect.color} already in use.`);
     const polygon = L.polygon(rect.points, {
       fillColor: rect.color,
       color: rect.color,
@@ -106,9 +106,11 @@ class LocationViewer {
   }
 
   updateFigure(index: number, newRect: Rect) {
-    if (!this.leaflet) throw Error("leaflet uninitialized.");
+    if (!this.leaflet) throw new Error("leaflet uninitialized.");
     if (index >= this.mapRects.length || index < 0)
-      throw Error(`invalid index ${index} for number of mapRects: ${index}`);
+      throw new Error(
+        `invalid index ${index} for number of mapRects: ${index}`,
+      );
 
     // create new polygon, mapRect
     const polygon = L.polygon(newRect.points, {
@@ -188,27 +190,51 @@ class LocationViewer {
       }
       const { lat, lng } = event.latlng;
       const clickPt: Point = { lat, lng };
+
+      // first check for intersection
       for (let i = 0; i < this.mapRects.length; i++) {
-        // deselect current rect
         const mapRect = this.mapRects[i]!;
-        if (this.focusedFigureIndex === i) {
-          const newRect = { ...mapRect.rect };
-          newRect.redBorder = false;
-          this.updateFigure(i, newRect);
-          this.focusedFigureIndex = null;
-          return;
-        }
         const points = mapRect.rect.points;
         // const points = (mapRect.polygon.getLatLngs()[0] as L.LatLng[]).map(
         //   (o) => ({ lat: o.lat, lng: o.lng }),
         // );
         if (pointInPolygon(clickPt, points)) {
+          if (this.focusedFigureIndex === i) {
+            // deselect current, end
+            const newRect = { ...this.mapRects[this.focusedFigureIndex]!.rect };
+            newRect.redBorder = false;
+            this.updateFigure(this.focusedFigureIndex, newRect);
+            this.focusedFigureIndex = null;
+            return;
+          } else if (this.focusedFigureIndex) {
+            const newRect = { ...this.mapRects[this.focusedFigureIndex]!.rect };
+            newRect.redBorder = false;
+            this.updateFigure(this.focusedFigureIndex, newRect);
+            this.focusedFigureIndex = null;
+          }
+          // if (this.focusedFigureIndex) {
+          //   // deselect current rect
+          //   const _newRect = {
+          //     ...this.mapRects[this.focusedFigureIndex]!.rect,
+          //   };
+          //   _newRect.redBorder = false;
+          //   this.updateFigure(this.focusedFigureIndex, _newRect);
+          // }
           const newRect = { ...mapRect.rect };
           newRect.redBorder = true;
           this.updateFigure(i, newRect);
           this.focusedFigureIndex = i;
           return;
         }
+      }
+
+      // case: user clicks outside of all polygons while one is focused
+      if (this.focusedFigureIndex) {
+        const newRect = { ...this.mapRects[this.focusedFigureIndex]!.rect };
+        newRect.redBorder = false;
+        this.updateFigure(this.focusedFigureIndex, newRect);
+        this.focusedFigureIndex = null;
+        return;
       }
 
       // spawn new rect
@@ -332,7 +358,7 @@ class LocationViewer {
 
     // Delete command
     // "D" (uppercase)
-    const rectDeleteHandler = (e: KeyboardEvent) => (e) => {
+    const rectDeleteHandler = (e: KeyboardEvent) => {
       if (this.mode === "view") return;
       if (this.focusedFigureIndex === null) return;
       if (e.key !== "D") return;
