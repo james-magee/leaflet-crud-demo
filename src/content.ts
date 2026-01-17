@@ -133,7 +133,7 @@ class LocationViewer {
   deleteFigure(index: number) {
     const figureToRemove = this.mapRects[index]!;
     figureToRemove.polygon.remove();
-    this.mapRects = this.mapRects.splice(index, 1);
+    this.mapRects.splice(index, 1);
     this.focusedFigureIndex = null;
   }
 
