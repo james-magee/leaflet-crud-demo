@@ -9,7 +9,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://recreation.ubc.ca/intramurals/leagues/*/term-1-standings/?r=intramurals/*"
+        "https://recreation.ubc.ca/intramurals/leagues/*/term-1-standings/?r=intramurals/*",
+        "https://recreation.ubc.ca/intramurals/leagues/*/term-2-standings/?r=intramurals/*"
       ],
       "css": ["content.css"]
     }
