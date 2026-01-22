@@ -372,7 +372,6 @@ class LocationViewer {
     // toggle view and draw mode
     // "."
     const modeToggleHandler = ((e: KeyboardEvent) => {
-      console.log(" . HANDLER CALLED");
       if (e.key !== ".") return;
       console.log("at this point as well...");
       // update the current mode
@@ -396,7 +395,6 @@ class LocationViewer {
 
   detachMap() {
     if (LocationViewer.currentViewer != this || !this.leaflet) return;
-    console.log("DETACHING...");
     this.cachedRects = this.mapRects.map((mr) => mr.rect);
     this.mapRects = [];
     this.focusedFigureIndex = null;
@@ -419,7 +417,6 @@ class LocationViewer {
     } else if (LocationViewer.currentViewer) {
       LocationViewer.currentViewer.toggleMap();
     }
-    console.log("ATTACHING...");
     this.attachMap();
     this.div.className = this.div.className.concat(" open");
     LocationViewer.currentViewer = this;
@@ -465,6 +462,7 @@ const addClickListener = () => {
 const observer = new MutationObserver(() => {
   const tbody = document.querySelector("tbody");
   if (tbody) {
+    // console.log("HERE");
     observer.disconnect();
     addClickListener();
   }
