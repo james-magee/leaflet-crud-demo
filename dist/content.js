@@ -10326,7 +10326,6 @@ ${coords[6]} ${coords[7]}
       };
       this.addListener("keydown", rectDeleteHandler);
       const modeToggleHandler = ((e) => {
-        console.log(" . HANDLER CALLED");
         if (e.key !== ".") return;
         console.log("at this point as well...");
         this.mode = this.mode === "view" ? "draw" : "view";
@@ -10345,7 +10344,6 @@ ${coords[6]} ${coords[7]}
     }
     detachMap() {
       if (_LocationViewer.currentViewer != this || !this.leaflet) return;
-      console.log("DETACHING...");
       this.cachedRects = this.mapRects.map((mr) => mr.rect);
       this.mapRects = [];
       this.focusedFigureIndex = null;
@@ -10367,7 +10365,6 @@ ${coords[6]} ${coords[7]}
       } else if (_LocationViewer.currentViewer) {
         _LocationViewer.currentViewer.toggleMap();
       }
-      console.log("ATTACHING...");
       this.attachMap();
       this.div.className = this.div.className.concat(" open");
       _LocationViewer.currentViewer = this;
