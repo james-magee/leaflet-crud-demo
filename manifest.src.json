@@ -3,9 +3,6 @@
   "name": "Intramurals Locations",
   "version": "1.0",
   "description": "Shows the intramurals locations",
-  "icons": {
-    "48": "icons/border-48.png"
-  },
   "content_scripts": [
     {
       "matches": [
